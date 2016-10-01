@@ -87,3 +87,10 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+#project credentials
+boto_config
+ec2_backup_config.py
+
+#pyCharm
+.idea/
