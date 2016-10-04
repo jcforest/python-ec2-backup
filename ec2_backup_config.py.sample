@@ -21,3 +21,8 @@ servers = [
         pattern = "server_name_tag_two"
     )
 ]
+
+aws = dict(
+        access_key_id = "access-key-id",
+        secret_access_key = "secret-access-key",
+    )
