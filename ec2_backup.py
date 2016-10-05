@@ -3,7 +3,6 @@
 # Author: Dennis Kroon
 # Version: 1.0
 
-import boto.ec2
 import boto3
 import datetime
 import time
