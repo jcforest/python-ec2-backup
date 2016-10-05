@@ -8,14 +8,14 @@ import datetime
 import time
 from time import mktime
 import ec2_backup_config #configuration file in same directory
-import logging
+# import logging
 
-logger = logging.getLogger('EC2Backup')
-hdlr = logging.FileHandler(ec2_backup_config.logfile)
-formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-hdlr.setFormatter(formatter)
-logger.addHandler(hdlr)
-logger.setLevel(logging.INFO)
+# logger = logging.getLogger('EC2Backup')
+# hdlr = logging.FileHandler(ec2_backup_config.logfile)
+# formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+# hdlr.setFormatter(formatter)
+# logger.addHandler(hdlr)
+# logger.setLevel(logging.INFO)
 
 tagNameFrequency = 'EC2BackupFrequency'
 tagNameRetain = 'EC2BackupRetain'
@@ -32,7 +32,7 @@ def tagValueByKey(objs, key):
 
 
 
-def ami_backup():
+def backup():
     print 'Backup started\n'
     # read server info from config file
     servers = ec2_backup_config.servers
@@ -52,7 +52,7 @@ def ami_backup():
 
         if ( boto3_ec2 is None  ):
             print 'ERROR - ' + server_name + ': unable to connect(boto3)'
-            logger.error( server_name + ': unable to connect to region ' + server_region + ' with profile ' + account_profile )
+            # logger.error( server_name + ': unable to connect to region ' + server_region + ' with profile ' + account_profile )
             continue
 
         instances = boto3_ec2.instances.filter(
@@ -78,10 +78,10 @@ def ami_backup():
             try:
                 image = instance.create_image(Name=ami_name, Description='Created by EC2Backup', NoReboot=True, DryRun=False)
             except Exception, e:
-                logger.error('Backup ' + server_name + ': ' + e.message)
+                # logger.error('Backup ' + server_name + ': ' + e.message)
                 print 'Error - ' + server_name + ': ' + e.message
                 continue
-            logger.info('Backup ' + server_name + ': ' + ami_name)
+            # logger.info('Backup ' + server_name + ': ' + ami_name)
             print 'AMI creation started'
             print 'AMI name: ' + ami_name
             image.create_tags(DryRun=False, Tags=[{'Key': 'Name','Value': ami_name}])
@@ -98,10 +98,10 @@ def ami_backup():
             if (diff_minutes > 0):
                 image.deregister(DryRun=False)
                 print image_name + ' deleted'
-                logger.info('Deleted AMI ' + image_name)
+                # logger.info('Deleted AMI ' + image_name)
             else:
                 print image_name + ' kept'
-                logger.info('Kept AMI ' + image_name)
+                # logger.info('Kept AMI ' + image_name)
     # end servers loop
     print '\nBackup completed'
 
