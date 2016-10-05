@@ -105,4 +105,3 @@ def ami_backup():
     # end servers loop
     print '\nBackup completed'
 
-ami_backup()
